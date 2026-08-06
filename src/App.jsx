@@ -28,7 +28,7 @@ const heroSlides = [
     tag: "ROYAL LUXURY",
     title: "Chikankari Crafted\nto Perfection.",
     desc: "Hand-embroidered Lucknowi Kurtas made from pure fabrics, tailored for your grace.",
-    image: "/images/maadrobe_chikankari.png",
+    image: "/images/maadrobe_hero_chikankari.png",
     cta: "Shop Chikankari",
     view: "chikankari"
   },
@@ -36,7 +36,7 @@ const heroSlides = [
     tag: "FESTIVE EXCLUSIVES",
     title: "Celebrate in Timeless Elegance.",
     desc: "Rich Banarasi silks and flared Anarkalis designed to shine at every grand occasion.",
-    image: "/images/maadrobe_festive.png",
+    image: "/images/maadrobe_hero_festive.png",
     cta: "Shop Festive Wear",
     view: "festive"
   },
@@ -44,7 +44,7 @@ const heroSlides = [
     tag: "BESPOKE STITCHING",
     title: "Your Perfect Fit,\nDirectly from Artisans.",
     desc: "Customize your neckline, sleeves, and fit. Made-to-measure tailoring delivered to your doorstep.",
-    image: "/images/maadrobe_casual.png",
+    image: "/images/maadrobe_hero_casual.png",
     cta: "Bespoke Fitting",
     view: "tailoring"
   }
@@ -213,14 +213,122 @@ const products = [
       "/images/maadrobe_chikankari.png",
       "/images/maadrobe_festive.png"
     ]
+  },
+  {
+    id: 10,
+    name: "Rania Royal Silk 3-Piece Kurta Set",
+    price: 4599,
+    originalPrice: 5999,
+    tag: "BOUTIQUE SPECIAL",
+    category: "3-Piece Kurti",
+    subCategory: "kurti",
+    description: "Stunning silk 3-piece set comprising a rich straight Kurti with detailed zari neckline, matching solid pants, and an organza dupatta with gold laces. Exudes pure royal charm.",
+    image: "/images/maadrobe_festive.png",
+    rating: 4.9,
+    reviewCount: 12,
+    thumbnails: [
+      "/images/maadrobe_festive.png",
+      "/images/maadrobe_casual.png",
+      "/images/maadrobe_chikankari.png"
+    ]
+  },
+  {
+    id: 11,
+    name: "Aarya Embroidered Chanderi 3-Piece Set",
+    price: 4299,
+    originalPrice: 5499,
+    tag: "ROYAL ELEGANCE",
+    category: "3-Piece Kurti",
+    subCategory: "kurti",
+    description: "Crafted in breathable Chanderi silk, this set features delicate hand-done katha work and sequin details, paired with straight pants and a designer scalloped dupatta.",
+    image: "/images/maadrobe_festive.png",
+    rating: 4.8,
+    reviewCount: 8,
+    thumbnails: [
+      "/images/maadrobe_festive.png",
+      "/images/maadrobe_casual.png",
+      "/images/maadrobe_chikankari.png"
+    ]
+  },
+  {
+    id: 12,
+    name: "Miraan Cotton Floral Co-ord Set",
+    price: 1999,
+    originalPrice: 2799,
+    tag: "TRENDING",
+    category: "Co-ord Sets",
+    subCategory: "coords",
+    description: "Stylishly tailored matching tunic and trouser co-ord set in pure premium cotton. Features vibrant floral prints, a sophisticated collar, and comfortable utility side pockets.",
+    image: "/images/maadrobe_casual.png",
+    rating: 4.8,
+    reviewCount: 37,
+    thumbnails: [
+      "/images/maadrobe_casual.png",
+      "/images/maadrobe_chikankari.png",
+      "/images/maadrobe_festive.png"
+    ]
+  },
+  {
+    id: 13,
+    name: "Sia Linen Comfort Casual Co-ord Set",
+    price: 2199,
+    originalPrice: 2999,
+    tag: "DAILY WEAR",
+    category: "Co-ord Sets",
+    subCategory: "coords",
+    description: "Ultra-comfortable solid co-ord set made in pure handwoven linen. Styled with button-down front tunic and tapered trousers. Breathable, minimalist, and smart.",
+    image: "/images/maadrobe_casual.png",
+    rating: 4.7,
+    reviewCount: 22,
+    thumbnails: [
+      "/images/maadrobe_casual.png",
+      "/images/maadrobe_chikankari.png",
+      "/images/maadrobe_festive.png"
+    ]
+  },
+  {
+    id: 14,
+    name: "Dhara Handblock Flared Tiered Dress",
+    price: 2499,
+    originalPrice: 3499,
+    tag: "NEW LAUNCH",
+    category: "Dresses",
+    subCategory: "dresses",
+    description: "Flowy, tiered silhouette midi dress featuring authentic handblock Indigo block printing. Crafted in premium high-density cotton with adjustable waist ties.",
+    image: "/images/maadrobe_chikankari.png",
+    rating: 4.9,
+    reviewCount: 19,
+    thumbnails: [
+      "/images/maadrobe_chikankari.png",
+      "/images/maadrobe_casual.png",
+      "/images/maadrobe_festive.png"
+    ]
+  },
+  {
+    id: 15,
+    name: "Nia Indigo Cotton Indo-Western Dress",
+    price: 1899,
+    originalPrice: 2499,
+    tag: "EASY CHIC",
+    category: "Dresses",
+    subCategory: "dresses",
+    description: "Fusion dress with keyhole neck details and tiered asymmetric hemline. Perfect blend of Indian handblock motifs and modern western style.",
+    image: "/images/maadrobe_casual.png",
+    rating: 4.7,
+    reviewCount: 15,
+    thumbnails: [
+      "/images/maadrobe_casual.png",
+      "/images/maadrobe_chikankari.png",
+      "/images/maadrobe_festive.png"
+    ]
   }
 ];
 
-// Double clone padding array for infinite loop carousel
+// Double clone padding array for infinite loop carousel (5 clones on each end for N=15 products)
 const paddedProducts = [
-  products[6], products[7], products[8], // Clones of last 3 items
-  ...products,                          // 9 real items
-  products[0], products[1], products[2]  // Clones of first 3 items
+  ...products.slice(-5), // Clones of last 5 items
+  ...products,          // 15 real items
+  ...products.slice(0, 5) // Clones of first 5 items
 ];
 
 export default function App() {
@@ -244,22 +352,25 @@ export default function App() {
   // Catalog Filter State
   const [catalogFilter, setCatalogFilter] = useState('ALL');
 
-  // Newsletter State
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+  // Promo Popup State
+  const [showPromoPopup, setShowPromoPopup] = useState(false);
+  const [popupEmail, setPopupEmail] = useState('');
+  const [popupSubscribed, setPopupSubscribed] = useState(false);
 
   // Best Sellers Infinite Carousel State
-  const [bsIndex, setBsIndex] = useState(3); // Start after first 3 cloned elements
+  const [bsIndex, setBsIndex] = useState(5); // Start after first 5 cloned elements
   const [bsTransitionEnabled, setBsTransitionEnabled] = useState(true);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   // Responsive items calculation for Best Sellers
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
         setItemsPerPage(2);
-      } else {
+      } else if (window.innerWidth <= 1024) {
         setItemsPerPage(3);
+      } else {
+        setItemsPerPage(5);
       }
     };
     handleResize();
@@ -356,12 +467,12 @@ export default function App() {
   };
 
   const handleBsTransitionEnd = () => {
-    if (bsIndex >= products.length + 3) {
+    if (bsIndex >= products.length + 5) {
       setBsTransitionEnabled(false);
-      setBsIndex(3);
-    } else if (bsIndex <= 2) {
+      setBsIndex(5);
+    } else if (bsIndex <= 4) {
       setBsTransitionEnabled(false);
-      setBsIndex(products.length + 2);
+      setBsIndex(products.length + 4);
     }
   };
 
@@ -461,12 +572,31 @@ export default function App() {
     navigateToView('home');
   };
 
-  const handleNewsletterSubmit = (e) => {
+  // Promo Popup trigger effect
+  useEffect(() => {
+    const hasSeenPopup = sessionStorage.getItem('hasSeenPromoPopup');
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowPromoPopup(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const closePopup = () => {
+    setShowPromoPopup(false);
+    sessionStorage.setItem('hasSeenPromoPopup', 'true');
+  };
+
+  const handlePopupSubmit = (e) => {
     e.preventDefault();
-    if (newsletterEmail.trim() && newsletterEmail.includes('@')) {
-      setNewsletterSubscribed(true);
-      setNewsletterEmail('');
-      setTimeout(() => setNewsletterSubscribed(false), 4000);
+    if (popupEmail.trim() && popupEmail.includes('@')) {
+      setPopupSubscribed(true);
+      setTimeout(() => {
+        setPopupSubscribed(false);
+        setShowPromoPopup(false);
+        sessionStorage.setItem('hasSeenPromoPopup', 'true');
+      }, 2500);
     }
   };
 
@@ -491,22 +621,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* 1. Announcement Bar */}
-      <div className="announcement-bar">
-        <div className="container announcement-bar-content">
-          <div className={`announcement-bar-item ${currentAnnouncement === 0 ? 'active' : ''}`}>
-            <Percent /> 10% OFF ON YOUR FIRST BOUTIQUE ORDER
-          </div>
-          <div className="announcement-bar-divider"></div>
-          <div className={`announcement-bar-item ${currentAnnouncement === 1 ? 'active' : ''}`}>
-            <RotateCcw /> FREE EXCHANGES & CUSTOM FIT ADJUSTMENTS
-          </div>
-          <div className="announcement-bar-divider"></div>
-          <div className={`announcement-bar-item ${currentAnnouncement === 2 ? 'active' : ''}`}>
-            <Truck /> EXPRESS DELIVERY PAN INDIA
-          </div>
-        </div>
-      </div>
+
 
       {/* 2. Header / Navbar */}
       <header className="header">
@@ -517,24 +632,30 @@ export default function App() {
           
           <div className="logo-container" style={{ cursor: 'pointer' }} onClick={() => navigateToView('home')}>
             <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MaaDrobe Apparels Logo" className="brand-logo-img" />
-            <div className="brand-text-wrapper">
-              <h1 className="brand-title">MaaDrobe</h1>
-              <span className="brand-tagline">Apparels</span>
-            </div>
           </div>
 
           <nav className="nav-links">
             <button className={`nav-link ${currentView === 'home' ? 'active' : ''}`} onClick={() => navigateToView('home')}>Home</button>
-            <button className={`nav-link ${currentView === 'chikankari' ? 'active' : ''}`} onClick={() => navigateToView('chikankari')}>Chikankari</button>
-            <button className={`nav-link ${currentView === 'festive' ? 'active' : ''}`} onClick={() => navigateToView('festive')}>Festive Wear</button>
-            <button className={`nav-link ${currentView === 'daily' ? 'active' : ''}`} onClick={() => navigateToView('daily')}>Daily Wear</button>
-            <button className={`nav-link ${currentView === 'tailoring' ? 'active' : ''}`} onClick={() => navigateToView('tailoring')}>Bespoke Fitting</button>
+            <div className="nav-dropdown-wrapper">
+              <button className={`nav-link dropdown-toggle ${['kurti', 'coords', 'dresses'].includes(currentView) ? 'active' : ''}`}>
+                Women Fashion <ChevronDown size={14} style={{ marginLeft: '4px', verticalAlign: 'middle' }} />
+              </button>
+              <div className="nav-dropdown-menu">
+                <button className="dropdown-item" onClick={() => navigateToView('kurti')}>Kurti</button>
+                <button className="dropdown-item" onClick={() => navigateToView('coords')}>Co-ord Sets</button>
+                <button className="dropdown-item" onClick={() => navigateToView('dresses')}>Dresses</button>
+              </div>
+            </div>
+            <button className={`nav-link ${currentView === 'tracking' ? 'active' : ''}`} onClick={() => navigateToView('tracking')}>Order Tracking</button>
+            <button className={`nav-link ${currentView === 'about' ? 'active' : ''}`} onClick={() => navigateToView('about')}>About Us</button>
           </nav>
 
+          <div className="header-search-bar">
+            <input type="text" placeholder="Search ethnic wear, kurtas..." className="header-search-input" />
+            <Search size={16} className="header-search-icon" />
+          </div>
+
           <div className="nav-actions">
-            <button className="nav-action-btn" aria-label="Search">
-              <Search />
-            </button>
             <button className="nav-action-btn" aria-label="Wishlist" onClick={() => {
               if (wishlist.length > 0) {
                 navigateToProduct(wishlist[0]);
@@ -553,45 +674,29 @@ export default function App() {
         </div>
       </header>
 
-      {/* Decorative Sub-Navbar Nav Tabs */}
-      {['home', 'chikankari', 'festive', 'daily'].includes(currentView) && (
-        <nav className="sub-navbar">
-          <div className="container sub-navbar-container">
-            <button className={`sub-navbar-tab ${currentView === 'home' ? 'active' : ''}`} onClick={() => navigateToView('home')}>Collections</button>
-            <span className="sub-navbar-divider">|</span>
-            <button className={`sub-navbar-tab ${currentView === 'chikankari' ? 'active' : ''}`} onClick={() => navigateToView('chikankari')}>Lucknowi Chikankari</button>
-            <span className="sub-navbar-divider">|</span>
-            <button className={`sub-navbar-tab ${currentView === 'festive' ? 'active' : ''}`} onClick={() => navigateToView('festive')}>Anarkali & Silks</button>
-            <span className="sub-navbar-divider">|</span>
-            <button className={`sub-navbar-tab ${currentView === 'daily' ? 'active' : ''}`} onClick={() => navigateToView('daily')}>Casual Cottons</button>
-          </div>
-        </nav>
-      )}
+
 
       {/* 3. Render Views dynamically wrapped in key transitions */}
       <main key={currentView} className="page-transition-enter">
         {currentView === 'home' ? (
           <>
-            {/* Split Hero Slider Banner (Solves model image crop issue) */}
-            <section className="hero-section">
+            {/* Premium Full Bleed Hero Slider Banner with Blending Text Overlay */}
+            <section className="hero-section-fullbleed">
               {heroSlides.map((slide, idx) => (
-                <div key={idx} className={`hero-slide-split ${currentSlide === idx ? 'active' : ''}`}>
-                  <div className="hero-split-text">
-                    <div className="hero-split-text-inner">
-                      <span className="hero-tag">{slide.tag}</span>
-                      <h2 className="hero-title">
-                        {slide.title.split('\n').map((line, li) => (
-                          <span key={li}>{line}<br /></span>
-                        ))}
-                      </h2>
-                      <p className="hero-desc">{slide.desc}</p>
-                      <button className="hero-cta-btn" onClick={() => navigateToView(slide.view)}>
-                        {slide.cta}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="hero-split-img">
-                    <img src={slide.image} alt={slide.title} className="hero-split-img-src" />
+                <div key={idx} className={`hero-slide-fullbleed ${currentSlide === idx ? 'active' : ''}`}>
+                  <div className="hero-fullbleed-bg" style={{ backgroundImage: `url(${slide.image})` }}></div>
+                  <div className="hero-fullbleed-overlay"></div>
+                  <div className="hero-fullbleed-content">
+                    <span className="hero-tag" style={{ color: 'var(--primary-gold)', transform: 'translateY(0)', opacity: 1 }}>{slide.tag}</span>
+                    <h2 className="hero-blending-title">
+                      {slide.title.split('\n').map((line, li) => (
+                        <span key={li}>{line}<br /></span>
+                      ))}
+                    </h2>
+                    <p className="hero-desc" style={{ transform: 'translateY(0)', opacity: 1, color: 'rgba(255, 255, 255, 0.9)' }}>{slide.desc}</p>
+                    <button className="hero-cta-btn" style={{ transform: 'translateY(0)', opacity: 1 }} onClick={() => navigateToView(slide.view)}>
+                      {slide.cta}
+                    </button>
                   </div>
                 </div>
               ))}
@@ -634,36 +739,44 @@ export default function App() {
               </div>
             </section>
 
-            {/* Shop by Silhouette - Now strictly 2:2 Columns on mobile */}
-            <section className="categories-section container reveal-on-scroll">
-              <div className="section-header">
-                <h2 className="section-title">Shop by Silhouette</h2>
-                <p className="section-subtitle">Exquisite Indian designs for every occasion</p>
-              </div>
+            {/* Shop by Silhouette - Removed headline, expanded to 6 portrait categories */}
+            <section className="categories-section container reveal-on-scroll" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
               <div className="categories-grid">
-                <div className="category-card" onClick={() => navigateToView('chikankari')}>
+                <div className="category-card" onClick={() => navigateToView('kurti')}>
                   <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_chikankari.png" alt="Chikankari" className="category-img" />
+                    <img src="/images/maadrobe_festive.png" alt="Straight Suit Set" className="category-img" />
                   </div>
-                  <h4 className="category-name">Chikankari Kurtis</h4>
+                  <h4 className="category-name">Straight Suit Set</h4>
                 </div>
-                <div className="category-card" onClick={() => navigateToView('festive')}>
+                <div className="category-card" onClick={() => navigateToView('kurti')}>
                   <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_festive.png" alt="Anarkali" className="category-img" />
+                    <img src="/images/maadrobe_chikankari.png" alt="Classic Kurtas" className="category-img" />
                   </div>
-                  <h4 className="category-name">Anarkali Suits</h4>
+                  <h4 className="category-name">Classic Kurtas</h4>
                 </div>
-                <div className="category-card" onClick={() => navigateToView('festive')}>
+                <div className="category-card" onClick={() => navigateToView('dresses')}>
                   <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_festive.png" alt="Banarasi Silk" className="category-img" />
+                    <img src="/images/maadrobe_festive.png" alt="Dresses" className="category-img" />
                   </div>
-                  <h4 className="category-name">Banarasi Silk</h4>
+                  <h4 className="category-name">Dresses</h4>
+                </div>
+                <div className="category-card" onClick={() => navigateToView('coords')}>
+                  <div className="category-img-wrapper">
+                    <img src="/images/maadrobe_casual.png" alt="Co-ord Set" className="category-img" />
+                  </div>
+                  <h4 className="category-name">Co-ord Set</h4>
                 </div>
                 <div className="category-card" onClick={() => navigateToView('daily')}>
                   <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_casual.png" alt="Daily Wear" className="category-img" />
+                    <img src="/images/maadrobe_casual.png" alt="Bottomwear" className="category-img" />
                   </div>
-                  <h4 className="category-name">Casual Cottons</h4>
+                  <h4 className="category-name">Bottomwear</h4>
+                </div>
+                <div className="category-card" onClick={() => navigateToView('festive')}>
+                  <div className="category-img-wrapper">
+                    <img src="/images/maadrobe_festive.png" alt="Anarkali Suit Set" className="category-img" />
+                  </div>
+                  <h4 className="category-name">Anarkali Suit Set</h4>
                 </div>
               </div>
             </section>
@@ -672,7 +785,7 @@ export default function App() {
             <section className="best-sellers-section reveal-on-scroll">
               <div className="container">
                 <div className="section-header">
-                  <h2 className="section-title">Boutique Best Sellers</h2>
+                  <h2 className="section-title">Most Loved</h2>
                   <p className="section-subtitle">Our most coveted traditional silhouettes</p>
                 </div>
                 
@@ -796,6 +909,77 @@ export default function App() {
               </div>
             </section>
 
+            {/* Testimonials Section */}
+            <section className="testimonials-section reveal-on-scroll">
+              <div className="container">
+                <div className="section-header">
+                  <h2 className="section-title">Client Diaries</h2>
+                  <p className="section-subtitle">Real experiences from our lovely community</p>
+                </div>
+                <div className="testimonials-grid">
+                  <div className="testimonial-card">
+                    <div>
+                      <div className="testimonial-stars">
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                      </div>
+                      <p className="testimonial-quote">"The custom fitting on my Chanderi 3-piece set was absolutely flawless! It feels like it was custom molded for my shape. Received so many compliments on my festive look."</p>
+                    </div>
+                    <div className="testimonial-author">
+                      <img src="/images/maadrobe_festive.png" alt="Aditi Sharma" className="testimonial-avatar" />
+                      <div className="author-info">
+                        <span className="author-name">Aditi Sharma</span>
+                        <span className="author-role">Verified Buyer, Delhi</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="testimonial-card">
+                    <div>
+                      <div className="testimonial-stars">
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                      </div>
+                      <p className="testimonial-quote">"MaaDrobe's Lucknowi Chikankari is the real deal. The hand embroidery is incredibly clean, and the pastel shades are so elegant. Extremely breathable linen."</p>
+                    </div>
+                    <div className="testimonial-author">
+                      <img src="/images/maadrobe_chikankari.png" alt="Sneha Reddy" className="testimonial-avatar" />
+                      <div className="author-info">
+                        <span className="author-name">Sneha Reddy</span>
+                        <span className="author-role">Verified Buyer, Bangalore</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="testimonial-card">
+                    <div>
+                      <div className="testimonial-stars">
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                        <Star size={16} fill="currentColor" />
+                      </div>
+                      <p className="testimonial-quote">"The WhatsApp direct ordering process is so seamless, and tracking is updated instantly. The express delivery reached me in just 3 days! Great service."</p>
+                    </div>
+                    <div className="testimonial-author">
+                      <img src="/images/maadrobe_casual.png" alt="Priya Sen" className="testimonial-avatar" />
+                      <div className="author-info">
+                        <span className="author-name">Priya Sen</span>
+                        <span className="author-role">Verified Buyer, Kolkata</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             {/* Instagram Showcase */}
             <section className="polaroid-section container reveal-on-scroll">
               <div className="section-header">
@@ -855,6 +1039,46 @@ export default function App() {
             onNavigateProduct={navigateToProduct}
             onBack={() => navigateToView('home')}
           />
+        ) : currentView === 'kurti' ? (
+          <CollectionPage 
+            title="Kurti Collection"
+            tag="PREMIUM WOMAN ETHNIC"
+            desc="Explore our range of traditional Chikankari, elegant Anarkalis, and premium 3-Piece Kurta sets."
+            bannerImage="/images/maadrobe_chikankari.png"
+            products={products.filter(p => p.subCategory === 'kurti' || p.category.includes('Kurti') || p.category.includes('Suits'))}
+            wishlist={wishlist}
+            toggleWishlist={toggleWishlist}
+            onNavigateProduct={navigateToProduct}
+            onBack={() => navigateToView('home')}
+          />
+        ) : currentView === 'coords' ? (
+          <CollectionPage 
+            title="Co-ord Sets"
+            tag="MODERN FUSION COMFORT"
+            desc="Matching tunic and trouser sets tailored in organic cottons and pure linens for smart, easy styling."
+            bannerImage="/images/maadrobe_casual.png"
+            products={products.filter(p => p.subCategory === 'coords')}
+            wishlist={wishlist}
+            toggleWishlist={toggleWishlist}
+            onNavigateProduct={navigateToProduct}
+            onBack={() => navigateToView('home')}
+          />
+        ) : currentView === 'dresses' ? (
+          <CollectionPage 
+            title="Dresses"
+            tag="ELEGANT INDO-WESTERN"
+            desc="Flowy tiered midi dresses and keyhole-neck silhouettes showcasing authentic traditional prints."
+            bannerImage="/images/maadrobe_festive.png"
+            products={products.filter(p => p.subCategory === 'dresses')}
+            wishlist={wishlist}
+            toggleWishlist={toggleWishlist}
+            onNavigateProduct={navigateToProduct}
+            onBack={() => navigateToView('home')}
+          />
+        ) : currentView === 'tracking' ? (
+          <OrderTrackingPage onBack={() => navigateToView('home')} />
+        ) : currentView === 'about' ? (
+          <AboutUsPage onBack={() => navigateToView('home')} />
         ) : currentView === 'tailoring' ? (
           <BespokeTailoringPage onBack={() => navigateToView('home')} />
         ) : currentView === 'product' ? (
@@ -880,28 +1104,7 @@ export default function App() {
         )}
       </main>
 
-      {/* 13. Newsletter Signup */}
-      <section className="newsletter-section">
-        <div className="container newsletter-content">
-          <div className="newsletter-info">
-            <h3 className="newsletter-title">Join the MaaDrobe Clan</h3>
-            <p className="newsletter-subtitle">Get updates on new collections, private sales, and custom tailoring promotions.</p>
-          </div>
-          <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
-            <input 
-              type="email" 
-              placeholder="Enter your email address" 
-              className="newsletter-input"
-              value={newsletterEmail}
-              onChange={(e) => setNewsletterEmail(e.target.value)}
-              required
-            />
-            <button type="submit" className="newsletter-btn">
-              {newsletterSubscribed ? 'Subscribed!' : 'Subscribe'}
-            </button>
-          </form>
-        </div>
-      </section>
+
 
       {/* 14. Footer */}
       <footer className="footer">
@@ -909,10 +1112,6 @@ export default function App() {
           <div className="footer-brand-column footer-col">
             <div className="footer-logo-container" style={{ cursor: 'pointer' }} onClick={() => navigateToView('home')}>
               <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MaaDrobe Logo" className="footer-logo-img" />
-              <div className="brand-text-wrapper">
-                <span className="brand-title" style={{ color: 'var(--primary-gold)' }}>MaaDrobe</span>
-                <span className="brand-tagline">Apparels</span>
-              </div>
             </div>
             <p className="footer-desc">Premium handcrafted Indian ethnic clothing. Tailored to perfection, made using 100% pure organic fabrics. Designed to suit every silhouette.</p>
             <div className="footer-socials">
@@ -923,29 +1122,20 @@ export default function App() {
           </div>
 
           <div className="footer-col">
-            <h4 className="footer-title">Collections</h4>
+            <h4 className="footer-title">Women Collection</h4>
             <ul className="footer-links">
-              <li><button onClick={() => navigateToView('chikankari')}>Chikankari Kurtis</button></li>
-              <li><button onClick={() => navigateToView('festive')}>Anarkali Suits</button></li>
-              <li><button onClick={() => navigateToView('festive')}>Banarasi Silks</button></li>
-              <li><button onClick={() => navigateToView('daily')}>Casual Cottons</button></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
-            <h4 className="footer-title">Services</h4>
-            <ul className="footer-links">
-              <li><button onClick={() => navigateToView('tailoring')}>Bespoke Fitting</button></li>
-              <li><a href="#custom-sizing">Size Adaptation</a></li>
-              <li><a href="#fabric-guide">Fabric Directory</a></li>
-              <li><a href="#care-instructions">Wash Care Guide</a></li>
+              <li><button onClick={() => navigateToView('kurti')}>Kurti</button></li>
+              <li><button onClick={() => navigateToView('coords')}>Co-ord Sets</button></li>
+              <li><button onClick={() => navigateToView('dresses')}>Dresses</button></li>
+              <li><button onClick={() => navigateToView('chikankari')}>Chikankari</button></li>
+              <li><button onClick={() => navigateToView('festive')}>Festive Wear</button></li>
             </ul>
           </div>
 
           <div className="footer-col">
             <h4 className="footer-title">Help</h4>
             <ul className="footer-links">
-              <li><a href="#track-orders">Track Order</a></li>
+              <li><button onClick={() => navigateToView('tracking')}>Track Order</button></li>
               <li><a href="#shipping-terms">Shipping & Delivery</a></li>
               <li><a href="#exchanges">Returns & Exchanges</a></li>
               <li><a href="#faqs">FAQs</a></li>
@@ -955,8 +1145,8 @@ export default function App() {
           <div className="footer-col">
             <h4 className="footer-title">About Us</h4>
             <ul className="footer-links">
-              <li><a href="#our-story">Artisanal Story</a></li>
-              <li><a href="#weaver-welfare">Weaver Welfare</a></li>
+              <li><button onClick={() => navigateToView('about')}>Artisanal Story</button></li>
+              <li><button onClick={() => navigateToView('about')}>Weaver Welfare</button></li>
               <li><a href="#contact">Contact Boutique</a></li>
               <li><a href="#store-locator">Boutique Locator</a></li>
             </ul>
@@ -1039,10 +1229,6 @@ export default function App() {
           <div className="mobile-menu-header">
             <div className="logo-container" onClick={() => navigateToView('home')}>
               <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MaaDrobe Logo" className="brand-logo-img" />
-              <div className="brand-text-wrapper">
-                <span className="brand-title">MaaDrobe</span>
-                <span className="brand-tagline">Apparels</span>
-              </div>
             </div>
             <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)}>
               <X />
@@ -1051,14 +1237,49 @@ export default function App() {
           <div className="mobile-menu-body">
             <nav className="mobile-nav-links">
               <button onClick={() => navigateToView('home')}>Home</button>
-              <button onClick={() => navigateToView('chikankari')}>Lucknowi Chikankari</button>
-              <button onClick={() => navigateToView('festive')}>Festive Wear</button>
-              <button onClick={() => navigateToView('daily')}>Daily Wear</button>
-              <button onClick={() => navigateToView('tailoring')}>Bespoke Stitching</button>
+              <div className="mobile-dropdown-header">Women Fashion</div>
+              <div className="mobile-dropdown-items" style={{ paddingLeft: '15px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-start' }}>
+                <button onClick={() => navigateToView('kurti')} style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Kurti</button>
+                <button onClick={() => navigateToView('coords')} style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Co-ord Sets</button>
+                <button onClick={() => navigateToView('dresses')} style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Dresses</button>
+              </div>
+              <button onClick={() => navigateToView('tracking')}>Order Tracking</button>
+              <button onClick={() => navigateToView('about')}>About Us</button>
             </nav>
             <div className="mobile-menu-footer">
               <p>Premium handcrafted Indian ethnic wear. Crafted in organic fabrics, tailored to perfection.</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 18. Promo Subscription Popup Modal */}
+      <div className={`popup-overlay ${showPromoPopup ? 'open' : ''}`} onClick={closePopup}>
+        <div className="popup-container" onClick={(e) => e.stopPropagation()}>
+          <button className="popup-close-btn" onClick={closePopup} aria-label="Close Popup">
+            <X size={20} />
+          </button>
+          <div className="popup-image-banner">
+            <span className="popup-banner-text">MaaDrobe Apparels</span>
+          </div>
+          <div className="popup-content">
+            <h3 className="popup-title">Unlock 10% Off</h3>
+            <p className="popup-desc">Join the MaaDrobe Clan today. Subscribe to our newsletter to receive updates on new collections, private sales, and custom tailoring promotions.</p>
+            {popupSubscribed ? (
+              <p className="popup-success-msg">🌸 Thank you! Check your inbox for your coupon code.</p>
+            ) : (
+              <form onSubmit={handlePopupSubmit} className="popup-form">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email address" 
+                  className="popup-input" 
+                  value={popupEmail}
+                  onChange={(e) => setPopupEmail(e.target.value)}
+                  required 
+                />
+                <button type="submit" className="popup-submit-btn">Subscribe & Claim 10% Off</button>
+              </form>
+            )}
           </div>
         </div>
       </div>
@@ -1717,6 +1938,158 @@ function CheckoutPage({ cart, getCartTotal, onBack, handleWhatsAppCheckout, hand
               </div>
             </>
           )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   ORDER TRACKING PAGE COMPONENT
+   ========================================================================== */
+function OrderTrackingPage({ onBack }) {
+  const [orderIdInput, setOrderIdInput] = useState('MD-7890-IN');
+  const [searchedId, setSearchedId] = useState('MD-7890-IN');
+  
+  const handleTrackSubmit = (e) => {
+    e.preventDefault();
+    if (orderIdInput.trim()) {
+      setSearchedId(orderIdInput.trim().toUpperCase());
+    }
+  };
+
+  return (
+    <div className="tracking-page-container container reveal-on-scroll">
+      <div className="breadcrumb-nav">
+        <button onClick={onBack} className="back-btn">
+          &larr; Back to Boutique
+        </button>
+        <span className="breadcrumb-divider">/</span>
+        <span className="breadcrumb-current font-bold">Order Tracking</span>
+      </div>
+
+      <h1 className="section-title" style={{ display: 'block', margin: '20px auto 40px auto', textAlign: 'center' }}>Track Your Order</h1>
+
+      <form onSubmit={handleTrackSubmit} className="tracking-search-bar">
+        <input 
+          type="text" 
+          placeholder="Enter Order ID (e.g. MD-7890-IN)" 
+          className="tracking-input"
+          value={orderIdInput}
+          onChange={(e) => setOrderIdInput(e.target.value)}
+          required 
+        />
+        <button type="submit" className="tracking-btn">Track</button>
+      </form>
+
+      <div className="tracking-card">
+        <div className="tracking-details-header">
+          <div>
+            <span className="tracking-id-label">Order: {searchedId}</span>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>Carrier: BlueDart Express Express</div>
+          </div>
+          <span className="tracking-status-badge">In Transit</span>
+        </div>
+
+        <div className="timeline-container">
+          <div className="timeline-step completed">
+            <div className="timeline-bullet"><Check size={16} /></div>
+            <div className="timeline-info">
+              <span className="timeline-title">Order Confirmed</span>
+              <span className="timeline-desc">Your order has been verified by the boutique and is sent for stitching adjustments.</span>
+              <span className="timeline-time">Aug 04, 2026 - 10:15 AM</span>
+            </div>
+          </div>
+
+          <div className="timeline-step completed">
+            <div className="timeline-bullet"><Check size={16} /></div>
+            <div className="timeline-info">
+              <span className="timeline-title">Packed & Ready</span>
+              <span className="timeline-desc">Artisans finished final adjustments and ironed the garments. Sealed in premium boutique packaging.</span>
+              <span className="timeline-time">Aug 05, 2026 - 02:30 PM</span>
+            </div>
+          </div>
+
+          <div className="timeline-step active">
+            <div className="timeline-bullet"><Truck size={16} /></div>
+            <div className="timeline-info">
+              <span className="timeline-title">Shipped & In Transit</span>
+              <span className="timeline-desc">Package handed over to BlueDart. Departed from Jaipur sorting facility.</span>
+              <span className="timeline-time">Aug 06, 2026 - 08:45 AM</span>
+            </div>
+          </div>
+
+          <div className="timeline-step">
+            <div className="timeline-bullet"><Smile size={16} /></div>
+            <div className="timeline-info">
+              <span className="timeline-title">Out for Delivery</span>
+              <span className="timeline-desc">Order is reaching your nearest delivery hub. Courier will contact you on WhatsApp.</span>
+              <span className="timeline-time">Expected: Aug 08, 2026</span>
+            </div>
+          </div>
+
+          <div className="timeline-step">
+            <div className="timeline-bullet"><ShoppingBag size={16} /></div>
+            <div className="timeline-info">
+              <span className="timeline-title">Delivered</span>
+              <span className="timeline-desc">Delivered to your doorstep. Share your fit on Instagram @MaaDrobeApparels!</span>
+              <span className="timeline-time">Expected: Aug 08, 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   ABOUT US PAGE COMPONENT
+   ========================================================================== */
+function AboutUsPage({ onBack }) {
+  return (
+    <div className="about-page-container reveal-on-scroll">
+      <div className="container">
+        <div className="breadcrumb-nav">
+          <button onClick={onBack} className="back-btn">
+            &larr; Back to Boutique
+          </button>
+          <span className="breadcrumb-divider">/</span>
+          <span className="breadcrumb-current font-bold">About Us</span>
+        </div>
+
+        <h1 className="section-title" style={{ display: 'block', margin: '20px auto 40px auto', textAlign: 'center' }}>Our Legacy</h1>
+        
+        <div className="about-intro-grid">
+          <div>
+            <h3 className="about-subtitle-premium">Preserving the Essence of Indian Handloom</h3>
+            <p className="about-para"><strong>MaaDrobe Apparels</strong> was founded with a singular, passionate vision: to celebrate the timeless elegance of traditional Indian weaves while tailoring each piece to match the unique silhouette of the modern woman.</p>
+            <p className="about-para">We believe that ethnic garments should be a second skin. Every kurta, coordinate set, and fusion dress in our catalog is handpicked and woven using 100% pure organic fabrics. We work directly with family-run weaver cooperatives across India to source authentic Lucknow georgettes, royal Banarasi brocades, and breezy Jaipur cottons, bypass-cutting intermediaries to ensure ethical wages for artisans.</p>
+          </div>
+          <div>
+            <img src="/images/maadrobe_about_banner.png" alt="Our Premium Handcrafted Collection" className="about-intro-img" />
+          </div>
+        </div>
+
+        <div className="about-pillars-grid">
+          <div className="pillar-card">
+            <h4 className="pillar-title">100% Pure Fabric Promise</h4>
+            <p className="pillar-text">We never compromise on fabric integrity. Every piece is crafted from organic linens, breathable handloom cottons, and rich natural silks. Free from toxic dyes and synthetics, they offer unmatched comfort in all seasons.</p>
+          </div>
+          <div className="pillar-card">
+            <h4 className="pillar-title">Empowering Artisan Clusters</h4>
+            <p className="pillar-text">Our hand-embroidery work is done by rural women self-help groups in Uttar Pradesh and Rajasthan. By ordering a MaaDrobe design, you help preserve heritage crafts like Lakhnavi Chikankari and shadow-work detailing.</p>
+          </div>
+          <div className="pillar-card">
+            <h4 className="pillar-title">Made-to-Order Sizing</h4>
+            <p className="pillar-text">To prevent wastage and promote sustainable fashion, we offer a complimentary online custom adjustment service. Our boutique masters verify your measurements to deliver a perfect, tailor-made drape.</p>
+          </div>
+        </div>
+
+        <div className="about-philosophy">
+          <h3 className="philosophy-title">Our Sustainable Philosophy</h3>
+          <p className="philosophy-para">
+            In a world dominated by fast fashion, MaaDrobe stands as a beacon of slow, intentional couture. We believe in creating garments that last generations. By combining ancient needlecraft with contemporary silhouettes, we design apparel that tells a story of heritage, pride, and ultimate comfort.
+          </p>
         </div>
       </div>
     </div>
