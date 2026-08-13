@@ -331,6 +331,73 @@ const paddedProducts = [
   ...products.slice(0, 5) // Clones of first 5 items
 ];
 
+// Testimonials Data
+const testimonialsData = [
+  {
+    name: "Aditi Sharma",
+    location: "Delhi",
+    rating: 5,
+    text: "The custom fitting on my Chanderi 3-piece set was absolutely flawless! It feels like it was custom molded for my shape.",
+    avatar: "/images/maadrobe_festive.png"
+  },
+  {
+    name: "Sneha Reddy",
+    location: "Bangalore",
+    rating: 5,
+    text: "MAA Drobe's Lucknowi Chikankari is the real deal. The hand embroidery is incredibly clean, and the pastel shades are so elegant.",
+    avatar: "/images/maadrobe_chikankari.png"
+  },
+  {
+    name: "Priya Sen",
+    location: "Kolkata",
+    rating: 5,
+    text: "The WhatsApp direct ordering process is so seamless, and tracking is updated instantly. The express delivery reached me in just 3 days!",
+    avatar: "/images/maadrobe_casual.png"
+  },
+  {
+    name: "Ritu Verma",
+    location: "Mumbai",
+    rating: 5,
+    text: "Absolutely love the Co-ord sets! High density cotton, opaque, and extremely comfortable for long office hours.",
+    avatar: "/images/maadrobe_casual.png"
+  },
+  {
+    name: "Karan Johar",
+    location: "Jaipur",
+    rating: 5,
+    text: "Bought a tiered indigo dress for my daughter. Outstanding block print quality. Colors did not bleed at all during washing.",
+    avatar: "/images/maadrobe_chikankari.png"
+  },
+  {
+    name: "Meenakshi Iyer",
+    location: "Chennai",
+    rating: 5,
+    text: "Bespoke tailoring service is excellent. They confirmed my measurements on WhatsApp and adjusted the sleeve length exactly as requested.",
+    avatar: "/images/maadrobe_festive.png"
+  },
+  {
+    name: "Shalini Roy",
+    location: "Pune",
+    rating: 5,
+    text: "Superb packaging and customer support. The silk straight kurti looks very rich, perfect for festive events.",
+    avatar: "/images/maadrobe_festive.png"
+  },
+  {
+    name: "Komal Gupta",
+    location: "Lucknow",
+    rating: 5,
+    text: "As someone from Lucknow, I'm picky about Chikankari. MAA Drobe's craftsmanship is authentic and beautiful. Fully satisfied!",
+    avatar: "/images/maadrobe_chikankari.png"
+  },
+  {
+    name: "Divya Nair",
+    location: "Kochi",
+    rating: 5,
+    text: "Excellent linen fabric quality. Breathable, durable, and holds its structure. I've ordered 3 more sets for my colleagues.",
+    avatar: "/images/maadrobe_casual.png"
+  }
+];
+
 export default function App() {
   // Loading & View States
   const [isLoading, setIsLoading] = useState(true);
@@ -338,6 +405,22 @@ export default function App() {
   const [activeProductId, setActiveProductId] = useState(1);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Header Scroll and Hover States
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHeaderHovered, setIsHeaderHovered] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   // Cart & Wishlist States
   const [cart, setCart] = useState([]);
@@ -348,6 +431,19 @@ export default function App() {
 
   // Hero Carousel State
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Watch to Cart Stage Carousel State
+  const WTC_VIDEOS = [
+    { id: 1, productId: 12, title: "Floral Cotton Co-ord",            cta: "Shop Co-ords",     videoUrl: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c054ba208d8c30fe3a3dbde24eb79802&profile_id=139&oauth2_token_id=57447761" },
+    { id: 2, productId: 2,  title: "Chikankari Shadow-work Kurta",    cta: "Shop Chikankari",  videoUrl: "https://player.vimeo.com/external/435674703.sd.mp4?s=7f5bde4e4983226a27e7f67be6858e379b32bf52&profile_id=139&oauth2_token_id=57447761" },
+    { id: 3, productId: 14, title: "Indigo Flared Tiered Dress",       cta: "Shop Dresses",     videoUrl: "https://player.vimeo.com/external/403847253.sd.mp4?s=d00e84b726cb493c0bc5c30fb8a54d5885c3c0ef&profile_id=139&oauth2_token_id=57447761" },
+    { id: 4, productId: 10, title: "Royal Silk 3-Piece Set",           cta: "Shop 3-Piece",     videoUrl: "https://player.vimeo.com/external/435674681.sd.mp4?s=2a2ed1e95fa50e68d0d97034c56e297801df5e8c&profile_id=139&oauth2_token_id=57447761" },
+    { id: 5, productId: 1,  title: "Gulnar Blockprinted Anarkali Set", cta: "Shop Festive",     videoUrl: "https://player.vimeo.com/external/403847224.sd.mp4?s=12d1840ef410f924df0a996c56c2057ef8c40ff2&profile_id=139&oauth2_token_id=57447761" },
+  ];
+  const [wtcActive, setWtcActive] = useState(0);
+  const [wtcPrev, setWtcPrev] = useState(null);   // index leaving center
+  const [wtcEntering, setWtcEntering] = useState(false); // triggers fade-in animation
+
 
   // Catalog Filter State
   const [catalogFilter, setCatalogFilter] = useState('ALL');
@@ -385,6 +481,29 @@ export default function App() {
     }, 1200);
     return () => clearTimeout(timer);
   }, []);
+
+  // Watch to Cart advance helper
+  const changeWtc = (nextIdx) => {
+    setWtcPrev(wtcActive);
+    setWtcActive(nextIdx);
+    setWtcEntering(true);
+    setTimeout(() => setWtcEntering(false), 700);
+  };
+
+  // Watch to Cart auto-advance
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWtcActive(prev => {
+        const next = (prev + 1) % WTC_VIDEOS.length;
+        setWtcPrev(prev);
+        setWtcEntering(true);
+        setTimeout(() => setWtcEntering(false), 700);
+        return next;
+      });
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
+
 
   // Smooth Scroll Initialization (Lenis)
   const lenisRef = useRef(null);
@@ -555,7 +674,7 @@ export default function App() {
     const itemsSummary = cart.map(item => `- ${item.quantity} x ${item.name} (Size: ${item.size}) - ₹${(item.price * item.quantity).toLocaleString('en-IN')}`).join('\n');
     const totalAmount = getCartTotal().toLocaleString('en-IN');
     
-    const message = `Namaste MaaDrobe Apparels! 🌸\n\nI would like to place a new boutique order:\n\n*Items Ordered:*\n${itemsSummary}\n\n*Total Amount:* ₹${totalAmount}\n\n*Delivery Address:*\nName: ${details.name}\nPhone: ${details.phone}\nAddress: ${details.address}, ${details.city} - ${details.pincode}\n\n*Payment Preference:* Direct Boutique Confirmation via WhatsApp\n\nKindly confirm stock availability and share payment/QR details. Thank you!`;
+    const message = `Namaste MAA Drobe! 🌸\n\nI would like to place a new boutique order:\n\n*Items Ordered:*\n${itemsSummary}\n\n*Total Amount:* ₹${totalAmount}\n\n*Delivery Address:*\nName: ${details.name}\nPhone: ${details.phone}\nAddress: ${details.address}, ${details.city} - ${details.pincode}\n\n*Payment Preference:* Direct Boutique Confirmation via WhatsApp\n\nKindly confirm stock availability and share payment/QR details. Thank you!`;
     
     const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
     
@@ -608,13 +727,13 @@ export default function App() {
       <div className={`page-loader ${!isLoading ? 'fade-out' : ''}`}>
         <div className="loader-inner">
           <div className="loader-brand">
-            {'MaaDrobe'.split('').map((letter, i) => (
+            {'MAA Drobe'.split('').map((letter, i) => (
               <span key={i} className="loader-letter" style={{ animationDelay: `${i * 0.08}s` }}>
                 {letter}
               </span>
             ))}
           </div>
-          <p className="loader-tagline">APPARELS</p>
+          <p className="loader-tagline">BOUTIQUE</p>
           <div className="loader-bar">
             <div className="loader-bar-fill"></div>
           </div>
@@ -624,14 +743,19 @@ export default function App() {
 
 
       {/* 2. Header / Navbar */}
-      <header className="header">
+      <header className={`header ${(isScrolled || isHeaderHovered) ? 'scrolled' : ''} ${currentView === 'home' ? 'transparent-header' : 'solid-header'}`} onMouseEnter={() => setIsHeaderHovered(true)} onMouseLeave={() => setIsHeaderHovered(false)}>
         <div className="container navbar">
           <button className="menu-toggle" aria-label="Open Menu" onClick={() => setIsMobileMenuOpen(true)}>
             <Menu />
           </button>
           
           <div className="logo-container" style={{ cursor: 'pointer' }} onClick={() => navigateToView('home')}>
-            <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MaaDrobe Apparels Logo" className="brand-logo-img" />
+            <div className="brand-logo-wrapper">
+              <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MAA Drobe Logo" className="brand-logo-img" />
+            </div>
+            <div className="brand-text-wrapper">
+              <span className="brand-title">MAA Drobe</span>
+            </div>
           </div>
 
           <nav className="nav-links">
@@ -712,198 +836,186 @@ export default function App() {
               </div>
             </section>
 
-            {/* Trust Badges Bar */}
-            <section className="trust-badges reveal-on-scroll">
-              <div className="container trust-grid">
-                <div className="trust-card">
-                  <div className="trust-icon"><Truck /></div>
-                  <div className="trust-info">
-                    <h4 className="trust-title">Free Express Shipping</h4>
-                    <span className="trust-desc">Pan India delivery in 3-5 days</span>
-                  </div>
-                </div>
-                <div className="trust-card">
-                  <div className="trust-icon"><Scissors /></div>
-                  <div className="trust-info">
-                    <h4 className="trust-title">Custom Adjustments</h4>
-                    <span className="trust-desc">Tailoring adjustments on demand</span>
-                  </div>
-                </div>
-                <div className="trust-card">
-                  <div className="trust-icon"><ShieldCheck /></div>
-                  <div className="trust-info">
-                    <h4 className="trust-title">100% Handcrafted</h4>
-                    <span className="trust-desc">Authentic Indian craftsmanship</span>
-                  </div>
-                </div>
+            {/* Shop by Silhouette - 3 Large Categories */}
+            <section className="categories-section container reveal-on-scroll" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
+              <div className="section-header">
+                <h2 className="section-title">Shop by Category</h2>
+                <p className="section-subtitle">Exquisite silhouettes designed for every occasion</p>
               </div>
-            </section>
-
-            {/* Shop by Silhouette - Removed headline, expanded to 6 portrait categories */}
-            <section className="categories-section container reveal-on-scroll" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
               <div className="categories-grid">
-                <div className="category-card" onClick={() => navigateToView('kurti')}>
+                <div className="category-card" onClick={() => navigateToView('coords')}>
                   <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_festive.png" alt="Straight Suit Set" className="category-img" />
+                    <img src="/images/maadrobe_casual.png" alt="Co-ord Sets" className="category-img" />
                   </div>
-                  <h4 className="category-name">Straight Suit Set</h4>
+                  <h4 className="category-name">Co-ord Sets</h4>
                 </div>
                 <div className="category-card" onClick={() => navigateToView('kurti')}>
                   <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_chikankari.png" alt="Classic Kurtas" className="category-img" />
+                    <img src="/images/maadrobe_festive.png" alt="3-Piece Sets" className="category-img" />
                   </div>
-                  <h4 className="category-name">Classic Kurtas</h4>
+                  <h4 className="category-name">3-Piece Sets</h4>
                 </div>
                 <div className="category-card" onClick={() => navigateToView('dresses')}>
                   <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_festive.png" alt="Dresses" className="category-img" />
+                    <img src="/images/maadrobe_chikankari.png" alt="Dresses" className="category-img" />
                   </div>
                   <h4 className="category-name">Dresses</h4>
                 </div>
-                <div className="category-card" onClick={() => navigateToView('coords')}>
-                  <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_casual.png" alt="Co-ord Set" className="category-img" />
-                  </div>
-                  <h4 className="category-name">Co-ord Set</h4>
-                </div>
-                <div className="category-card" onClick={() => navigateToView('daily')}>
-                  <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_casual.png" alt="Bottomwear" className="category-img" />
-                  </div>
-                  <h4 className="category-name">Bottomwear</h4>
-                </div>
-                <div className="category-card" onClick={() => navigateToView('festive')}>
-                  <div className="category-img-wrapper">
-                    <img src="/images/maadrobe_festive.png" alt="Anarkali Suit Set" className="category-img" />
-                  </div>
-                  <h4 className="category-name">Anarkali Suit Set</h4>
-                </div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+                <button className="btn-outline-dark" onClick={() => navigateToView('shop')}>View All Categories</button>
               </div>
             </section>
 
-            {/* Infinite Loop Best Sellers Carousel (2:2 Columns on mobile, touch scroll friendly) */}
+            {/* Most Loved — 2×2 Grid */}
             <section className="best-sellers-section reveal-on-scroll">
               <div className="container">
                 <div className="section-header">
                   <h2 className="section-title">Most Loved</h2>
                   <p className="section-subtitle">Our most coveted traditional silhouettes</p>
                 </div>
-                
-                <div className="best-sellers-carousel-outer">
-                  <div className="best-sellers-carousel-viewport">
-                    <div 
-                      className="best-sellers-track"
-                      style={{
-                        transform: `translateX(-${bsIndex * (100 / itemsPerPage)}%)`,
-                        transition: bsTransitionEnabled ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
-                      }}
-                      onTransitionEnd={handleBsTransitionEnd}
-                    >
-                      {paddedProducts.map((p, idx) => (
-                        <div key={idx} className="best-seller-slide-wrapper">
-                          <div className="product-card" onClick={() => navigateToProduct(p.id)}>
-                            <div className="product-card-img-wrapper">
-                              <img src={p.image} alt={p.name} className="product-card-image" />
-                              <button 
-                                className={`product-card-wishlist ${wishlist.includes(p.id) ? 'active' : ''}`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleWishlist(p.id);
-                                }}
-                                aria-label="Add to wishlist"
-                              >
-                                <Heart fill={wishlist.includes(p.id) ? 'currentColor' : 'none'} />
-                              </button>
-                              <span className="product-card-tag">{p.tag}</span>
-                            </div>
-                            <div className="product-card-info">
-                              <span className="product-card-category">{p.category}</span>
-                              <h4 className="product-card-title">{p.name}</h4>
-                              <div className="product-price-layout">
-                                <span className="price-sale">₹{p.price.toLocaleString('en-IN')}</span>
-                                <span className="price-original">₹{p.originalPrice.toLocaleString('en-IN')}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
-                  <button className="carousel-control-btn left" onClick={handleBsPrev}>&larr;</button>
-                  <button className="carousel-control-btn right" onClick={handleBsNext}>&rarr;</button>
-                </div>
-              </div>
-            </section>
-
-            {/* Product Catalog */}
-            <section className="catalog-section container reveal-on-scroll">
-              <div className="section-header">
-                <h2 className="section-title">The Boutique Collection</h2>
-                <p className="section-subtitle">Exquisite silhouettes crafted with pure fabrics</p>
-              </div>
-              
-              <div className="catalog-filter-pills">
-                {['ALL', 'ANARKALI SUITS', 'CHIKANKARI KURTIS', 'DAILY WEAR'].map((cat) => (
-                  <button 
-                    key={cat} 
-                    className={`catalog-filter-pill ${catalogFilter === cat ? 'active' : ''}`}
-                    onClick={() => setCatalogFilter(cat)}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-
-              <div className="product-grid" key={catalogFilter}>
-                {products
-                  .filter(p => catalogFilter === 'ALL' || p.category.toUpperCase() === catalogFilter)
-                  .map((product) => (
-                    <div key={product.id} className="product-card" onClick={() => navigateToProduct(product.id)}>
+                <div className="most-loved-grid">
+                  {products.slice(0, 4).map((p) => (
+                    <div key={p.id} className="product-card" onClick={() => navigateToProduct(p.id)}>
                       <div className="product-card-img-wrapper">
-                        <img src={product.image} alt={product.name} className="product-card-image" />
-                        <button 
-                          className={`product-card-wishlist ${wishlist.includes(product.id) ? 'active' : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleWishlist(product.id);
-                          }}
+                        <img src={p.image} alt={p.name} className="product-card-image" />
+                        <button
+                          className={`product-card-wishlist ${wishlist.includes(p.id) ? 'active' : ''}`}
+                          onClick={(e) => { e.stopPropagation(); toggleWishlist(p.id); }}
                           aria-label="Add to wishlist"
                         >
-                          <Heart fill={wishlist.includes(product.id) ? 'currentColor' : 'none'} />
+                          <Heart fill={wishlist.includes(p.id) ? 'currentColor' : 'none'} />
                         </button>
-                        <span className="product-card-tag">{product.tag}</span>
+                        <span className="product-card-tag">{p.tag}</span>
                       </div>
                       <div className="product-card-info">
-                        <span className="product-card-category">{product.category}</span>
-                        <h4 className="product-card-title">{product.name}</h4>
+                        <span className="product-card-category">{p.category}</span>
+                        <h4 className="product-card-title">{p.name}</h4>
                         <div className="product-price-layout">
-                          <span className="price-sale">₹{product.price.toLocaleString('en-IN')}</span>
-                          <span className="price-original">₹{product.originalPrice.toLocaleString('en-IN')}</span>
-                          <span className="price-discount">{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF</span>
+                          <span className="price-sale">₹{p.price.toLocaleString('en-IN')}</span>
+                          <span className="price-original">₹{p.originalPrice.toLocaleString('en-IN')}</span>
                         </div>
                       </div>
                     </div>
                   ))}
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+                  <button className="btn-outline-dark" onClick={() => navigateToView('shop')}>View All Products</button>
+                </div>
               </div>
             </section>
 
-            {/* Artisanal Story Section */}
+            {/* Watch to Cart — Stage Carousel */}
+            <section className="watch-to-cart-section reveal-on-scroll">
+              <div className="container">
+                <div className="section-header">
+                  <h2 className="section-title">Watch to Cart</h2>
+                  <p className="section-subtitle">Experience our designs in motion</p>
+                </div>
+              </div>
+
+              <div className="wtc-stage-wrapper">
+                {WTC_VIDEOS.map((item, i) => {
+                  const total = WTC_VIDEOS.length;
+                  let rel = ((i - wtcActive) % total + total) % total;
+                  if (rel > total / 2) rel -= total;
+
+                  let posClass = '';
+                  if (rel === 0)  posClass = 'wtc-center';
+                  else if (rel === 1 || rel === -(total-1))  posClass = 'wtc-right';
+                  else if (rel === -1 || rel === (total-1))  posClass = 'wtc-left';
+                  else if (rel > 1)  posClass = 'wtc-far-right';
+                  else              posClass = 'wtc-far-left';
+
+                  // Extra animation classes
+                  const isEntering = wtcEntering && i === wtcActive;
+                  const isLeaving  = wtcEntering && i === wtcPrev;
+
+                  return (
+                    <div
+                      key={item.id}
+                      className={`wtc-stage-card ${posClass}${isEntering ? ' wtc-entering' : ''}${isLeaving ? ' wtc-leaving' : ''}`}
+                      onClick={() => {
+                        if (posClass === 'wtc-center') navigateToProduct(item.productId);
+                        else changeWtc(i);
+                      }}
+                    >
+                      <video src={item.videoUrl} muted loop playsInline autoPlay />
+                      <div className="wtc-stage-overlay">
+                        <span className="wtc-stage-title">{item.title}</span>
+                        <span className="wtc-stage-cta">{item.cta} →</span>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Dot indicators */}
+                <div className="wtc-dots">
+                  {WTC_VIDEOS.map((_, i) => (
+                    <button
+                      key={i}
+                      className={`wtc-dot ${i === wtcActive ? 'active' : ''}`}
+                      onClick={() => changeWtc(i)}
+                      aria-label={`Go to video ${i + 1}`}
+                    />
+                  ))}
+                </div>
+
+              </div>
+            </section>
+
+
+                       {/* Redesigned Artisanal Story Section */}
             <section className="story-section reveal-on-scroll">
               <div className="container story-grid">
                 <div className="story-content">
-                  <h3 className="story-title">Crafting India's Heritage with Love</h3>
-                  <p className="story-text">At <strong>MaaDrobe Apparels</strong>, we bridge the gap between traditional Indian weaver craftsmanship and modern boutique style. Each Kurti is cut from handpicked pure fabrics, including premium silk, handloom cotton, and delicate georgettes.</p>
-                  <p className="story-text">Our hand-embroidery work is created by specialized clusters of artisans in Lucknow and Rajasthan, preserving traditional embroidery techniques like shadow-work Lakhnavi shadow-work Chikankari and royal gold brocade stitching.</p>
-                  <div style={{ marginTop: '20px' }}>
-                    <button className="btn-solid-gold" onClick={() => navigateToView('tailoring')}>Explore Our Tailoring Services</button>
+                  <span className="story-tagline">OUR HERITAGE</span>
+                  <h3 className="story-title">Crafting India's <span className="highlight-ruby">Heritage</span></h3>
+                  <p className="story-intro">At <strong>MAA Drobe</strong>, we bridge the gap between traditional Indian weaver craftsmanship and modern boutique style.</p>
+                  
+                  <div className="heritage-pillars">
+                    <div className="pillar-item">
+                      <div className="pillar-dot"></div>
+                      <div className="pillar-body">
+                        <h4 className="pillar-name">100% Pure Organic Fabrics</h4>
+                        <p className="pillar-desc">Each piece is cut from handpicked pure fabrics, including premium silk, handloom cotton, and georgettes.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="pillar-item">
+                      <div className="pillar-dot"></div>
+                      <div className="pillar-body">
+                        <h4 className="pillar-name">Authentic Chikankari Shadow-work</h4>
+                        <p className="pillar-desc">Hand-embroidery created by specialized clusters of artisans in Lucknow and Rajasthan.</p>
+                      </div>
+                    </div>
+
+                    <div className="pillar-item">
+                      <div className="pillar-dot"></div>
+                      <div className="pillar-body">
+                        <h4 className="pillar-name">WhatsApp Bespoke Tailoring</h4>
+                        <p className="pillar-desc">Silhouettes custom adjusted to your height and measurements for the perfect tailored fit.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="story-action">
+                    <button className="btn-solid-gold" onClick={() => navigateToView('tailoring')}>Explore Bespoke Services</button>
                   </div>
                 </div>
-                <div className="story-img-wrapper">
-                  <img src="/images/maadrobe_chikankari.png" alt="Traditional Weaving" className="story-img" />
-                  <div className="story-badge">
-                    <span className="story-badge-num">100%</span>
-                    <span className="story-badge-txt">Pure Fabric</span>
+
+                <div className="story-collage">
+                  <div className="collage-main-img-wrapper">
+                    <img src="/images/maadrobe_festive.png" alt="Traditional Silhouettes" className="collage-main-img" />
+                  </div>
+                  <div className="collage-sub-img-wrapper">
+                    <img src="/images/maadrobe_chikankari.png" alt="Embroidery Detail" className="collage-sub-img" />
+                  </div>
+                  <div className="story-badge-premium">
+                    <span className="badge-value">100%</span>
+                    <span className="badge-label">Handcrafted</span>
                   </div>
                 </div>
               </div>
@@ -916,66 +1028,26 @@ export default function App() {
                   <h2 className="section-title">Client Diaries</h2>
                   <p className="section-subtitle">Real experiences from our lovely community</p>
                 </div>
-                <div className="testimonials-grid">
-                  <div className="testimonial-card">
-                    <div>
-                      <div className="testimonial-stars">
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
+              </div>
+              <div className="testimonials-carousel-wrapper">
+                <div className="testimonials-track">
+                  {[...testimonialsData, ...testimonialsData].map((item, idx) => (
+                    <div className="testimonial-card" key={idx}>
+                      <div className="testimonial-stars" style={{ display: 'flex', gap: '4px', color: 'var(--primary-gold)' }}>
+                        {[...Array(item.rating)].map((_, i) => (
+                          <Star key={i} size={16} fill="currentColor" />
+                        ))}
                       </div>
-                      <p className="testimonial-quote">"The custom fitting on my Chanderi 3-piece set was absolutely flawless! It feels like it was custom molded for my shape. Received so many compliments on my festive look."</p>
-                    </div>
-                    <div className="testimonial-author">
-                      <img src="/images/maadrobe_festive.png" alt="Aditi Sharma" className="testimonial-avatar" />
-                      <div className="author-info">
-                        <span className="author-name">Aditi Sharma</span>
-                        <span className="author-role">Verified Buyer, Delhi</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="testimonial-card">
-                    <div>
-                      <div className="testimonial-stars">
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                      </div>
-                      <p className="testimonial-quote">"MaaDrobe's Lucknowi Chikankari is the real deal. The hand embroidery is incredibly clean, and the pastel shades are so elegant. Extremely breathable linen."</p>
-                    </div>
-                    <div className="testimonial-author">
-                      <img src="/images/maadrobe_chikankari.png" alt="Sneha Reddy" className="testimonial-avatar" />
-                      <div className="author-info">
-                        <span className="author-name">Sneha Reddy</span>
-                        <span className="author-role">Verified Buyer, Bangalore</span>
+                      <p className="testimonial-quote">"{item.text}"</p>
+                      <div className="testimonial-author" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '15px' }}>
+                        <img src={item.avatar} alt={item.name} className="testimonial-avatar" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                        <div className="author-info" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                          <span className="author-name" style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-espresso)' }}>{item.name}</span>
+                          <span className="author-role" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Verified Buyer, {item.location}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="testimonial-card">
-                    <div>
-                      <div className="testimonial-stars">
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                        <Star size={16} fill="currentColor" />
-                      </div>
-                      <p className="testimonial-quote">"The WhatsApp direct ordering process is so seamless, and tracking is updated instantly. The express delivery reached me in just 3 days! Great service."</p>
-                    </div>
-                    <div className="testimonial-author">
-                      <img src="/images/maadrobe_casual.png" alt="Priya Sen" className="testimonial-avatar" />
-                      <div className="author-info">
-                        <span className="author-name">Priya Sen</span>
-                        <span className="author-role">Verified Buyer, Kolkata</span>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </section>
@@ -983,15 +1055,15 @@ export default function App() {
             {/* Instagram Showcase */}
             <section className="polaroid-section container reveal-on-scroll">
               <div className="section-header">
-                <h2 className="section-title">Follow @MaaDrobeApparels</h2>
+                <h2 className="section-title">Follow @MAADrobe</h2>
                 <p className="section-subtitle">Styling Inspiration & Happy Customers</p>
               </div>
               <div className="polaroid-grid">
                 {[
-                  { img: "/images/maadrobe_chikankari.png", caption: "#MaaDrobeChikankari" },
-                  { img: "/images/maadrobe_festive.png", caption: "#FestiveAnarkali" },
-                  { img: "/images/maadrobe_casual.png", caption: "#LinenOfficeComfort" },
-                  { img: "/images/maadrobe_chikankari.png", caption: "#MaaDrobeVibes" }
+                  { img: "/images/maadrobe_casual.png", caption: "#MAADrobeCoords" },
+                  { img: "/images/maadrobe_festive.png", caption: "#MAADrobe3Piece" },
+                  { img: "/images/maadrobe_chikankari.png", caption: "#MAADrobeDresses" },
+                  { img: "/images/maadrobe_hero_chikankari.png", caption: "#MAADrobeStyle" }
                 ].map((item, idx) => (
                   <div key={idx} className="polaroid-card">
                     <div className="polaroid-img-wrapper">
@@ -1081,6 +1153,18 @@ export default function App() {
           <AboutUsPage onBack={() => navigateToView('home')} />
         ) : currentView === 'tailoring' ? (
           <BespokeTailoringPage onBack={() => navigateToView('home')} />
+        ) : currentView === 'shop' ? (
+          <CollectionPage 
+            title="The Complete Boutique"
+            tag="ALL SILHOUETTES"
+            desc="Explore our entire curation of handcrafted premium women ethnic wear."
+            bannerImage="/images/maadrobe_hero_chikankari.png"
+            products={products}
+            wishlist={wishlist}
+            toggleWishlist={toggleWishlist}
+            onNavigateProduct={navigateToProduct}
+            onBack={() => navigateToView('home')}
+          />
         ) : currentView === 'product' ? (
           <ProductDetailPage 
             product={activeProduct}
@@ -1111,7 +1195,12 @@ export default function App() {
         <div className="container footer-grid">
           <div className="footer-brand-column footer-col">
             <div className="footer-logo-container" style={{ cursor: 'pointer' }} onClick={() => navigateToView('home')}>
-              <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MaaDrobe Logo" className="footer-logo-img" />
+              <div className="brand-logo-wrapper">
+                <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MAA Drobe Logo" className="footer-logo-img" />
+              </div>
+              <div className="brand-text-wrapper">
+                <span className="brand-title" style={{ color: 'var(--primary-gold)' }}>MAA Drobe</span>
+              </div>
             </div>
             <p className="footer-desc">Premium handcrafted Indian ethnic clothing. Tailored to perfection, made using 100% pure organic fabrics. Designed to suit every silhouette.</p>
             <div className="footer-socials">
@@ -1127,8 +1216,6 @@ export default function App() {
               <li><button onClick={() => navigateToView('kurti')}>Kurti</button></li>
               <li><button onClick={() => navigateToView('coords')}>Co-ord Sets</button></li>
               <li><button onClick={() => navigateToView('dresses')}>Dresses</button></li>
-              <li><button onClick={() => navigateToView('chikankari')}>Chikankari</button></li>
-              <li><button onClick={() => navigateToView('festive')}>Festive Wear</button></li>
             </ul>
           </div>
 
@@ -1141,20 +1228,10 @@ export default function App() {
               <li><a href="#faqs">FAQs</a></li>
             </ul>
           </div>
-
-          <div className="footer-col">
-            <h4 className="footer-title">About Us</h4>
-            <ul className="footer-links">
-              <li><button onClick={() => navigateToView('about')}>Artisanal Story</button></li>
-              <li><button onClick={() => navigateToView('about')}>Weaver Welfare</button></li>
-              <li><a href="#contact">Contact Boutique</a></li>
-              <li><a href="#store-locator">Boutique Locator</a></li>
-            </ul>
-          </div>
         </div>
 
         <div className="container footer-bottom">
-          <span>&copy; {new Date().getFullYear()} MAADROBE APPARELS. All Rights Reserved.</span>
+          <span>&copy; {new Date().getFullYear()} MAA DROBE. All Rights Reserved.</span>
           <span>
             Boutique Platform by{' '}
             <a href="https://qubnixtechnology.com/" target="_blank" rel="noopener noreferrer" className="footer-dev-link">
@@ -1228,7 +1305,12 @@ export default function App() {
         <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-menu-header">
             <div className="logo-container" onClick={() => navigateToView('home')}>
-              <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MaaDrobe Logo" className="brand-logo-img" />
+              <div className="brand-logo-wrapper">
+                <img src="/images/WhatsApp_Image_2026-07-28_at_2.47.24_PM-removebg-preview.png" alt="MAA Drobe Logo" className="brand-logo-img" />
+              </div>
+              <div className="brand-text-wrapper">
+                <span className="brand-title">MAA Drobe</span>
+              </div>
             </div>
             <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)}>
               <X />
@@ -1260,7 +1342,7 @@ export default function App() {
             <X size={20} />
           </button>
           <div className="popup-image-banner">
-            <span className="popup-banner-text">MaaDrobe Apparels</span>
+            <span className="popup-banner-text">MAA Drobe</span>
           </div>
           <div className="popup-content">
             <h3 className="popup-title">Unlock 10% Off</h3>
@@ -1671,7 +1753,7 @@ function BespokeTailoringPage({ onBack }) {
       return;
     }
 
-    const message = `Namaste MaaDrobe Apparels! 🌸\n\nI want to place a *Bespoke Tailoring Request*:\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\n\n*Garment Custom Options:*\nFabric Selection: ${fabric}\nSilhouette Style: ${style}\nNeckline Design: ${neck}\nSleeve Length: ${sleeves}\n\n*Measurements (Inches):*\nBust Size: ${bust}"\nWaist Size: ${waist}"\nHip Size: ${hips || "N/A"}"\nDesired Kurti Length: ${length || "Standard"}"\n\n*Additional Stylist Notes:*\n${notes || "None"}\n\nPlease reach out to me to confirm my custom design order details!`;
+    const message = `Namaste MAA Drobe! 🌸\n\nI want to place a *Bespoke Tailoring Request*:\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\n\n*Garment Custom Options:*\nFabric Selection: ${fabric}\nSilhouette Style: ${style}\nNeckline Design: ${neck}\nSleeve Length: ${sleeves}\n\n*Measurements (Inches):*\nBust Size: ${bust}"\nWaist Size: ${waist}"\nHip Size: ${hips || "N/A"}"\nDesired Kurti Length: ${length || "Standard"}"\n\n*Additional Stylist Notes:*\n${notes || "None"}\n\nPlease reach out to me to confirm my custom design order details!`;
     
     const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
     
@@ -2032,7 +2114,7 @@ function OrderTrackingPage({ onBack }) {
             <div className="timeline-bullet"><ShoppingBag size={16} /></div>
             <div className="timeline-info">
               <span className="timeline-title">Delivered</span>
-              <span className="timeline-desc">Delivered to your doorstep. Share your fit on Instagram @MaaDrobeApparels!</span>
+              <span className="timeline-desc">Delivered to your doorstep. Share your fit on Instagram @MAADrobe!</span>
               <span className="timeline-time">Expected: Aug 08, 2026</span>
             </div>
           </div>
@@ -2062,7 +2144,7 @@ function AboutUsPage({ onBack }) {
         <div className="about-intro-grid">
           <div>
             <h3 className="about-subtitle-premium">Preserving the Essence of Indian Handloom</h3>
-            <p className="about-para"><strong>MaaDrobe Apparels</strong> was founded with a singular, passionate vision: to celebrate the timeless elegance of traditional Indian weaves while tailoring each piece to match the unique silhouette of the modern woman.</p>
+            <p className="about-para"><strong>MAA Drobe</strong> was founded with a singular, passionate vision: to celebrate the timeless elegance of traditional Indian weaves while tailoring each piece to match the unique silhouette of the modern woman.</p>
             <p className="about-para">We believe that ethnic garments should be a second skin. Every kurta, coordinate set, and fusion dress in our catalog is handpicked and woven using 100% pure organic fabrics. We work directly with family-run weaver cooperatives across India to source authentic Lucknow georgettes, royal Banarasi brocades, and breezy Jaipur cottons, bypass-cutting intermediaries to ensure ethical wages for artisans.</p>
           </div>
           <div>
