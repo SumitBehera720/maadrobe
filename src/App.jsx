@@ -867,7 +867,7 @@ export default function App() {
               </div>
             </section>
 
-            {/* Most Loved — 2×2 Grid */}
+            {/* Most Loved — Infinite Carousel */}
             <section className="best-sellers-section reveal-on-scroll">
               <div className="container">
                 <div className="section-header">
@@ -875,30 +875,45 @@ export default function App() {
                   <p className="section-subtitle">Our most coveted traditional silhouettes</p>
                 </div>
 
-                <div className="most-loved-grid">
-                  {products.slice(0, 4).map((p) => (
-                    <div key={p.id} className="product-card" onClick={() => navigateToProduct(p.id)}>
-                      <div className="product-card-img-wrapper">
-                        <img src={p.image} alt={p.name} className="product-card-image" />
-                        <button
-                          className={`product-card-wishlist ${wishlist.includes(p.id) ? 'active' : ''}`}
-                          onClick={(e) => { e.stopPropagation(); toggleWishlist(p.id); }}
-                          aria-label="Add to wishlist"
-                        >
-                          <Heart fill={wishlist.includes(p.id) ? 'currentColor' : 'none'} />
-                        </button>
-                        <span className="product-card-tag">{p.tag}</span>
-                      </div>
-                      <div className="product-card-info">
-                        <span className="product-card-category">{p.category}</span>
-                        <h4 className="product-card-title">{p.name}</h4>
-                        <div className="product-price-layout">
-                          <span className="price-sale">₹{p.price.toLocaleString('en-IN')}</span>
-                          <span className="price-original">₹{p.originalPrice.toLocaleString('en-IN')}</span>
+                <div className="best-sellers-carousel-outer">
+                  <div className="best-sellers-carousel-viewport">
+                    <div
+                      className="best-sellers-track"
+                      style={{
+                        transform: `translateX(-${bsIndex * (100 / itemsPerPage)}%)`,
+                        transition: bsTransitionEnabled ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
+                      }}
+                      onTransitionEnd={handleBsTransitionEnd}
+                    >
+                      {paddedProducts.map((p, idx) => (
+                        <div key={idx} className="best-seller-slide-wrapper">
+                          <div className="product-card" onClick={() => navigateToProduct(p.id)}>
+                            <div className="product-card-img-wrapper">
+                              <img src={p.image} alt={p.name} className="product-card-image" />
+                              <button
+                                className={`product-card-wishlist ${wishlist.includes(p.id) ? 'active' : ''}`}
+                                onClick={(e) => { e.stopPropagation(); toggleWishlist(p.id); }}
+                                aria-label="Add to wishlist"
+                              >
+                                <Heart fill={wishlist.includes(p.id) ? 'currentColor' : 'none'} />
+                              </button>
+                              <span className="product-card-tag">{p.tag}</span>
+                            </div>
+                            <div className="product-card-info">
+                              <span className="product-card-category">{p.category}</span>
+                              <h4 className="product-card-title">{p.name}</h4>
+                              <div className="product-price-layout">
+                                <span className="price-sale">₹{p.price.toLocaleString('en-IN')}</span>
+                                <span className="price-original">₹{p.originalPrice.toLocaleString('en-IN')}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+                  <button className="carousel-control-btn left" onClick={handleBsPrev}>&larr;</button>
+                  <button className="carousel-control-btn right" onClick={handleBsNext}>&rarr;</button>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
@@ -907,65 +922,24 @@ export default function App() {
               </div>
             </section>
 
-            {/* Watch to Cart — Stage Carousel */}
-            <section className="watch-to-cart-section reveal-on-scroll">
-              <div className="container">
-                <div className="section-header">
-                  <h2 className="section-title">Watch to Cart</h2>
-                  <p className="section-subtitle">Experience our designs in motion</p>
-                </div>
+            {/* Watch to Cart — 5-Video Grid */}
+            <section className="watch-to-cart-section container reveal-on-scroll">
+              <div className="section-header">
+                <h2 className="section-title">Watch to Cart</h2>
+                <p className="section-subtitle">Experience our designs in motion</p>
               </div>
-
-              <div className="wtc-stage-wrapper">
-                {WTC_VIDEOS.map((item, i) => {
-                  const total = WTC_VIDEOS.length;
-                  let rel = ((i - wtcActive) % total + total) % total;
-                  if (rel > total / 2) rel -= total;
-
-                  let posClass = '';
-                  if (rel === 0)  posClass = 'wtc-center';
-                  else if (rel === 1 || rel === -(total-1))  posClass = 'wtc-right';
-                  else if (rel === -1 || rel === (total-1))  posClass = 'wtc-left';
-                  else if (rel > 1)  posClass = 'wtc-far-right';
-                  else              posClass = 'wtc-far-left';
-
-                  // Extra animation classes
-                  const isEntering = wtcEntering && i === wtcActive;
-                  const isLeaving  = wtcEntering && i === wtcPrev;
-
-                  return (
-                    <div
-                      key={item.id}
-                      className={`wtc-stage-card ${posClass}${isEntering ? ' wtc-entering' : ''}${isLeaving ? ' wtc-leaving' : ''}`}
-                      onClick={() => {
-                        if (posClass === 'wtc-center') navigateToProduct(item.productId);
-                        else changeWtc(i);
-                      }}
-                    >
-                      <video src={item.videoUrl} muted loop playsInline autoPlay />
-                      <div className="wtc-stage-overlay">
-                        <span className="wtc-stage-title">{item.title}</span>
-                        <span className="wtc-stage-cta">{item.cta} →</span>
-                      </div>
+              <div className="watch-to-cart-grid">
+                {WTC_VIDEOS.map((item) => (
+                  <div key={item.id} className="video-card" onClick={() => navigateToProduct(item.productId)}>
+                    <video src={item.videoUrl} muted loop playsInline autoPlay />
+                    <div className="video-card-overlay">
+                      <span className="video-card-title">{item.title}</span>
+                      <span className="video-card-btn">{item.cta} &rarr;</span>
                     </div>
-                  );
-                })}
-
-                {/* Dot indicators */}
-                <div className="wtc-dots">
-                  {WTC_VIDEOS.map((_, i) => (
-                    <button
-                      key={i}
-                      className={`wtc-dot ${i === wtcActive ? 'active' : ''}`}
-                      onClick={() => changeWtc(i)}
-                      aria-label={`Go to video ${i + 1}`}
-                    />
-                  ))}
-                </div>
-
+                  </div>
+                ))}
               </div>
             </section>
-
 
                        {/* Redesigned Artisanal Story Section */}
             <section className="story-section reveal-on-scroll">

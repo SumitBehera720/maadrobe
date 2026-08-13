@@ -1222,6 +1222,42 @@ button {
 
 
 
+/* ==========================================================================
+   WATCH TO CART — 5-COLUMN VIDEO GRID (desktop)
+   ========================================================================== */
+.watch-to-cart-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .watch-to-cart-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .video-card:nth-child(4),
+  .video-card:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .watch-to-cart-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 15px;
+    padding-bottom: 20px;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .video-card {
+    min-width: 260px;
+    scroll-snap-align: start;
+    display: block !important;
+  }
+}
 
 
 /* Side video cards */
